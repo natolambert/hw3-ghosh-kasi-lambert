@@ -99,12 +99,22 @@ public abstract class SimplePicoPro extends SimpleBoard {
             Log.e(TAG, "preSetup", e);
         }
     }
+
+
+    void uartInit(UartDevice uart, int baudrate) {
+        try {
+            uart.setBaudrate(baudrate);
+        } catch (IOException e) {
+            Log.e(TAG,"uartInit",e);
+        }
+
+    }
     void analogInit() {
         // This assumes the IDD HAT is on the board
         try {
             ADS1015 = new Adcv2x("I2C1",Adcv2x.I2C_ADDRESS_48);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG,"analogInit",e);
         }
     }
     float analogRead(int channel) {

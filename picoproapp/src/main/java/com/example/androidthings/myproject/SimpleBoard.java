@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.android.things.pio.Gpio;
 import com.google.android.things.pio.GpioCallback;
+import com.google.android.things.pio.UartDevice;
 
 import java.io.IOException;
 
@@ -111,6 +112,19 @@ public abstract class SimpleBoard {
     void println(String s) {
         Log.i(TAG,s+"\n");
     }
+
+    void print(UartDevice uart, String s) {
+        byte[] bytes = s.getBytes();
+        try {
+            uart.write(bytes,bytes.length);
+        } catch (IOException e) {
+            Log.e(TAG,"print to uart",e);
+        }
+    }
+    void println(UartDevice uart, String s) {
+        print(uart,s+"\n");
+    }
+
     public abstract void setup();
     public abstract void loop();
     public abstract void teardown();

@@ -99,7 +99,7 @@ public class L3GD20 implements AutoCloseable {
     public @interface Mode {}
 
     public static final int MODE_STANDBY = 0x00; // STANDBY //see table 61 in datahseet
-    public static final int MODE_ACTIVE = 0x01; // ACTIVE
+    public static final int MODE_ACTIVE = 0x0F; // ACTIVE
 
 
 

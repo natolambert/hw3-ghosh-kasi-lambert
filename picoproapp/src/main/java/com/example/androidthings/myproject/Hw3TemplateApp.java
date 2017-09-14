@@ -41,7 +41,9 @@ public class Hw3TemplateApp extends SimplePicoPro {
         // Initialize the MMQ8451 Accelerometer
         try {
             accelerometer = new L3GD20("I2C1");
-            accelerometer.setMode(L3GD20.MODE_ACTIVE);
+            accelerometer.setMode(L3GD20.MODE_STANDBY); // Sets standby
+            delay(50);
+            accelerometer.setMode(L3GD20.MODE_ACTIVE);  // Sets on
         } catch (IOException e) {
             Log.e("HW3Template","setup",e);
         }
@@ -54,7 +56,7 @@ public class Hw3TemplateApp extends SimplePicoPro {
         a2 = analogRead(A2);
         a3 = analogRead(A3);
         println(UART6,"A0: "+a0+"   A1: "+a1+"   A2: "+a2+"   A3: "+a3); // this goes to the Serial port
-        println("A0: "+a0+"   A1: "+a1+"   A2: "+a2+"   A3: "+a3); // this goes to the Android Monitor in Android Studio
+//        println("A0: "+a0+"   A1: "+a1+"   A2: "+a2+"   A3: "+a3); // this goes to the Android Monitor in Android Studio
 
 
         // read I2C accelerometer and print to UART

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import com.google.android.things.contrib.driver.mma8451q.Mma8451Q;
+import com.google.android.things.contrib.driver.mma8451q.L3GD20;
 
 /**
  * HW3 Template
@@ -25,7 +25,7 @@ import com.google.android.things.contrib.driver.mma8451q.Mma8451Q;
 
 public class Hw3TemplateApp extends SimplePicoPro {
 
-    Mma8451Q accelerometer;
+    L3GD20 accelerometer;
 
     float[] xyz = {0.f,0.f,0.f}; //store X,Y,Z acceleration of MMA8451 accelerometer here [units: G]
     float a0,a1,a2,a3; //store analog readings from ADS1015 ADC here [units: V]
@@ -40,8 +40,8 @@ public class Hw3TemplateApp extends SimplePicoPro {
 
         // Initialize the MMQ8451 Accelerometer
         try {
-            accelerometer = new Mma8451Q("I2C1");
-            accelerometer.setMode(Mma8451Q.MODE_ACTIVE);
+            accelerometer = new L3GD20("I2C1");
+            accelerometer.setMode(L3GD20.MODE_ACTIVE);
         } catch (IOException e) {
             Log.e("HW3Template","setup",e);
         }

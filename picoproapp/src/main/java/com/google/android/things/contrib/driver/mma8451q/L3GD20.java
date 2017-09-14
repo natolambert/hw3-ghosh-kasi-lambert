@@ -180,15 +180,22 @@ public class L3GD20 implements AutoCloseable {
         if (mDevice == null) {
             throw new IllegalStateException("device not connected");
         }
-        byte[] sample = new byte[6];
-        mDevice.readRegBuffer(REG_OUT_X_MSB,sample,6);
+//        byte[] sample = new byte[6];
+//        mDevice.readRegBuffer(REG_OUT_X_MSB,sample,6);
+//
+//        byte xlo = sample[0]; //
+//        byte xhi = sample[1];
+//        byte ylo = sample[2];
+//        byte yhi = sample[3];
+//        byte zlo = sample[4];
+//        byte zhi = sample[5];
 
-        byte xlo = sample[0]; //
-        byte xhi = sample[1];
-        byte ylo = sample[2];
-        byte yhi = sample[3];
-        byte zlo = sample[4];
-        byte zhi = sample[5];
+        byte xlo = mDevice.readRegByte(GYRO_REGISTER_OUT_X_L);   //            r
+        byte xhi = mDevice.readRegByte(GYRO_REGISTER_OUT_X_H);   //            r
+        byte ylo = mDevice.readRegByte(GYRO_REGISTER_OUT_Y_L);   //            r
+        byte yhi = mDevice.readRegByte(GYRO_REGISTER_OUT_Y_H);   //            r
+        byte zlo = mDevice.readRegByte(GYRO_REGISTER_OUT_Z_L);   //            r
+        byte zhi = mDevice.readRegByte(GYRO_REGISTER_OUT_Z_H);   //            r
 
         // Shift values to create properly formed integer (low byte first)
         int x = (xlo | (xhi << 8));
@@ -197,7 +204,7 @@ public class L3GD20 implements AutoCloseable {
 
         // Default Sensitivity = 256 DPS
         float multiplier = GYRO_SENSITIVITY_250DPS;
-        //default is 2G
+
         if (mRange == GYRO_RANGE_250DPS) {
             multiplier = GYRO_SENSITIVITY_250DPS;
         }else if (mRange == GYRO_RANGE_500DPS) {

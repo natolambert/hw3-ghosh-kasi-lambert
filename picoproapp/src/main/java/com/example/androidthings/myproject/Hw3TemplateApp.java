@@ -106,8 +106,8 @@ public class Hw3TemplateApp extends SimplePicoPro {
 
             // Weighted value of X, Y, Z
             dataValuesX.addFirst(xyz[0]);
-            dataValuesX.addFirst(xyz[1]);
-            dataValuesX.addFirst(xyz[2]);
+            dataValuesY.addFirst(xyz[1]);
+            dataValuesZ.addFirst(xyz[2]);
 
             /*
             dataValuesX.removeLast();

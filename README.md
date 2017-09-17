@@ -18,10 +18,17 @@ File Notes:
 - SpaceShooter_IDD: Unity game files modified to read serial from the picopro
 - L3GD20.java: Driver for L3GD20 3-axis gyro
 
+Team Roles:
+-----------
+- Ashi Ghosh: Hardware construction, serial integration
+- Kaushik Kasi: Unity game integration, main state logic
+- Nathan Lambert: Gyro driver, electrical construction
+- All: Testing
+
 Introduction
 ============
 
-The instructions for this assignment were to construct a playable game or musical instrument with the PicoPro development board and provided sensors / serial cable. We decided on implementing a game for fun, and then on a space shooter for simple control scheme for a fast paced game.
+The instructions for this assignment were to construct a playable game or musical instrument with the PicoPro development board and provided sensors / serial cable. We decided on implementing a game for fun, and then on a space shooter for simple control scheme for a fast paced game. The game involves X and Y movement, and an on or off firing mechanism. For the movement control, we average, post process, and threshold gyro values to translate into playable movement. Firing control is a basic threshold from a flex sensor resistive divider (more in software).
 
 Hardware
 ========
@@ -57,6 +64,13 @@ After interpreting the serial commands - i.e. converting from string to float va
 To fire, a threshold value was established in Unity. Therefore, the space was discretized into 2 (on and off) and the flexible resistor with an analog output only served the same purpose as a switch.
 
 ![Alt text](/Photos/game_image1.PNG?raw=true "Optional Title")
+
+Reflection
+==========
+
+We ran into a decent amount of trouble trying to use the 3-axis driver. To begin with, using this different sensor required us to spend our early project hours writing a new driver. Then decoding angular acceleration values into game movement was not easy, as for a left tilt on the balance board you will see positive and negative values, so it involved so parameter tweaking. All software and integration aside, the PicoPro board gave us unexplained challenge. We tried two boards unsuccessfully, and then switched toa third to have our project function. At one point, one of the 3.3V pins was shorted to ground, which could be a failure mode? That being said other oddities existed too. 
+
+Ultimately, the new sensor and weirdness of the developer environment limited our ability to make a polished game. The system is playable, but upon use one will see how the movement control is intuitive, but with a bit of added randomness. This project was frustrating at times, but ultimately rewarding.
 
 
 License

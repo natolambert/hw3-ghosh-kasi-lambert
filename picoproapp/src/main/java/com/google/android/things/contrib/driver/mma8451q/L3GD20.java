@@ -213,7 +213,6 @@ public class L3GD20 implements AutoCloseable {
             multiplier = GYRO_SENSITIVITY_2000DPS;
         }
 
-        int MSB_only = 64; // divide by 2^6 = 64 since we're only reading 8 MSBs for now, not 6 LSBs
         return new float[] {
                 ((float)x) * multiplier,
                 ((float)y) * multiplier,

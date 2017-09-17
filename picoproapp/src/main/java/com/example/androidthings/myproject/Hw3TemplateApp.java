@@ -49,7 +49,7 @@ public class Hw3TemplateApp extends SimplePicoPro {
         uartInit(UART6,115200);
 
         // Initialize the Analog-to-Digital converter on the HAT
-        //analogInit(); //need to call this first before calling analogRead()
+        analogInit(); //need to call this first before calling analogRead()
 
         // Initialize the MMQ8451 Accelerometer
         try {
@@ -80,7 +80,7 @@ public class Hw3TemplateApp extends SimplePicoPro {
 
 
         // read all analog channels and print to UART
-        //a0 = analogRead(A0);
+        a0 = analogRead(A0);
 //        a1 = analogRead(A1);
 //        a2 = analogRead(A2);
 //        a3 = analogRead(A3);
@@ -91,7 +91,7 @@ public class Hw3TemplateApp extends SimplePicoPro {
 
         // read I2C accelerometer and print to UART
         try {
-            println("try");
+
             if (time == 0) {
                 time = System.currentTimeMillis();
                 old_time = time;
@@ -120,9 +120,9 @@ public class Hw3TemplateApp extends SimplePicoPro {
             xyz_angle[2] = 0.0f;
 
             for (int i = 0; i < 10; i++) {
-                xyz_angle[0] += weights[i]*dataValuesX.get(i);
-                xyz_angle[1] += weights[i]*dataValuesY.get(i);
-                xyz_angle[2] += weights[i]*dataValuesZ.get(i);
+                xyz_angle[0] += 5*weights[i]*dataValuesX.get(i);
+                xyz_angle[1] += 5*weights[i]*dataValuesY.get(i);
+                xyz_angle[2] += 10*weights[i]*dataValuesZ.get(i);
             }
 
             /*

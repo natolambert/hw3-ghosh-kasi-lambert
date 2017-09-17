@@ -28,12 +28,14 @@ public class Hw3TemplateApp extends SimplePicoPro {
     L3GD20 accelerometer;
 
     float[] xyz = {0.f,0.f,0.f}; //store X,Y,Z acceleration of MMA8451 accelerometer here [units: G]
+    float[] xyz_angle = {0.f, 0.f, 0.f};
+    double time =0, old_time = 0;
     float a0,a1,a2,a3; //store analog readings from ADS1015 ADC here [units: V]
 
     public void setup() {
 
         // Initialize the serial port for communicating to a PC
-        uartInit(UART6,9600);
+        uartInit(UART6,115200);
 
         // Initialize the Analog-to-Digital converter on the HAT
         analogInit(); //need to call this first before calling analogRead()
@@ -50,23 +52,42 @@ public class Hw3TemplateApp extends SimplePicoPro {
     }
 
     public void loop() {
-
-        /*
         // read all analog channels and print to UART
         a0 = analogRead(A0);
-        a1 = analogRead(A1);
-        a2 = analogRead(A2);
-        a3 = analogRead(A3);
-        println(UART6,"A0: "+a0+"   A1: "+a1+"   A2: "+a2+"   A3: "+a3); // this goes to the Serial port
+//        a1 = analogRead(A1);
+//        a2 = analogRead(A2);
+//        a3 = analogRead(A3);
+//        println(UART6,"A0: "+a0+"   A1: "+a1+"   A2: "+a2+"   A3: "+a3); // this goes to the Serial port
 //        println("A0: "+a0+"   A1: "+a1+"   A2: "+a2+"   A3: "+a3); // this goes to the Android Monitor in Android Studio
-
-        */
+//        println(UART6,"A0: " + a0);
+//        println("A0: " + a0);
 
         // read I2C accelerometer and print to UART
         try {
+            if (time == 0) {
+                time = System.currentTimeMillis();
+                old_time = time;
+            }
+            else{
+                old_time = time;
+                time = System.currentTimeMillis();
+            }
+//            println("deltaTime: " + (time-old_time));
+//            println("" + System.currentTimeMillis());
             xyz = accelerometer.readSample();
-            println(UART6,"X: "+xyz[0]+"   Y: "+xyz[1]+"   Z: "+xyz[2]);
-            println("X: "+xyz[0]+"   Y: "+xyz[1]+"   Z: "+xyz[2]);
+            if ((xyz_angle[0] + xyz[0]*(time-old_time)/1000 <= 50) && (xyz_angle[0] + xyz[0]*(time-old_time)/1000 >= -50))
+                xyz_angle[0] += xyz[0]*(time-old_time)/1000*2;
+            if ((xyz_angle[1] + xyz[1]*(time-old_time)/1000 <= 50) && (xyz_angle[1] + xyz[1]*(time-old_time)/1000 >= -50))
+                xyz_angle[1] += xyz[1]*(time-old_time)/1000*2;
+            if ((xyz_angle[2] + xyz[2]*(time-old_time)/1000 <= 50) && (xyz_angle[2] + xyz[2]*(time-old_time)/1000 >= -50))
+                xyz_angle[2] += xyz[2]*(time-old_time)/1000*2;
+//            println(UART6,"X: "+xyz[0]+"   Y: "+xyz[1]+"   Z: "+xyz[2]);
+//            println("X: "+xyz[0]+"   Y: "+xyz[1]+"   Z: "+xyz[2]);
+            println(UART6,xyz_angle[0]/50+","+xyz_angle[1]/50+","+xyz_angle[2]/50 + "," + a0);
+            println(xyz_angle[0]/50+","+xyz_angle[1]/50+","+xyz_angle[2]/50 + "," + a0);
+//            println("gyro: " + xyz[0]);
+//            println("angle: "+ xyz_angle[0]/50);
+
 
             //use this line instead for unlabeled numbers separated by tabs that work with Arduino's SerialPlotter:
             //println(UART6,xyz[0]+"\t"+xyz[1]+"\t"+xyz[2]); // this goes to the Serial port
@@ -75,8 +96,7 @@ public class Hw3TemplateApp extends SimplePicoPro {
             Log.e("HW3Template","loop",e);
         }
 
-
-        delay(10);
+        delay(1);
 
     }
 }

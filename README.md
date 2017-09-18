@@ -53,8 +53,11 @@ The PicoPro logic provides the central hub for sensor readings and transfers the
 ----------------------
 Instead of the provided accelerometer, we decided to use a 3-axis gyro to differentiate between the x and y direction for full movement in the space shooter game. The Adafruit option available from the Jacobs store is what we implemented https://www.adafruit.com/product/1032. With this device, we ported the provided Arduino driver library over with minimal functionality. The included driver only includes initialization to the desired functionality and reading sensor data, so it does not integrate with the overarching Android Things sensor database, which would make it easier for others to pick up and use. 
 
+3. State Logic
+--------------
+The game requires x and y velocity components from the board as input in order to drive the spaceship around the playable screen. We can read angular acceleration from the gyrometer, and then try to integrate that value from each axis (with time) to get velocity in each direction. However, a common problem with gyrometers is that the integrated values tend to drift upwards and saturate because the noise from each reading is integrated into the velocity value. We tried to measure how much drift is accumulated in each axis per-second and subtract it from each reading, but that wasn’t successful at mitigating drift (probably because the drift is proportional to the movement of the sensor). We also briefly considered combining accelerometer and gyroscope data using an algorithm like DCM, but weren’t certain whether that would have a successful outcome. Our final solution uses a weighted average over the last second of gyroscope readings to come up with an estimate of which direction the board is tilted -- that value is fed into a thresholding function in the game itself to translate the sensor measurements into discrete velocity values for the spaceship in the X and Y axes.
 
-3. Unity Game
+4. Unity Game
 -------------
 
 The exact game that we used was the 2D Space Shooter provided with Unity’s tutorials. The completed game had a Player Control file in C#. To interface in serial, the port had to be initialized and we had to read in using a SerialPort.ReadLine() command. Unfortunately it is a known bug in C# right now that this command is faulty. To accommodate a SerialPort.ReadTo(“\n”) command was used instead which has the same functionality,

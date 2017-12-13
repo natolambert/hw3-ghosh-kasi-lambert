@@ -3,6 +3,7 @@ HW3 - Space Shooter Game (Ghosh - Kasi - Lambert)
 ![Alt text](/Photos/system_image1.JPG?raw=true "Optional Title")
 
 A video demonstration of this project can be found at: https://www.youtube.com/watch?v=Z5vldrjRAMI
+Those coming to learn on the Android Things Platform will get the most use out of the L3GD20 driver which I ported from the mma8451q acceleromoter driver. Code structure was from the Arduino driver found online.
 
 Pre-requisites
 --------------
